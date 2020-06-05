@@ -1462,7 +1462,6 @@ public:
 class AllStoresInScope : public IRVisitor {
     using IRVisitor::visit;
     void visit(const Store *op) override {
-        debug(0) << op->name << " is local: " << s.contains(op->name) << "\n";
         result = result && s.contains(op->name);
     }
 
@@ -1489,7 +1488,6 @@ class RemoveUnnecessaryAtomics : public IRMutator {
     Scope<> local_allocs;
 
     Stmt visit(const Allocate *op) override {
-        debug(0) << "Adding " << op->name << " to scope\n";
         ScopedBinding<> bind(local_allocs, op->name);
         return IRMutator::visit(op);
     }
@@ -1505,7 +1503,6 @@ class RemoveUnnecessaryAtomics : public IRMutator {
     Stmt visit(const For *op) override {
         if (is_parallel(op->for_type)) {
             ScopedValue<bool> old_in_thread(in_thread, true);
-            debug(0) << "Entering parallel loop: " << op->name << "\n";
             Scope<> old_local_allocs;
             std::swap(old_local_allocs, local_allocs);
             Stmt s = IRMutator::visit(op);
