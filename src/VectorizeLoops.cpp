@@ -1504,9 +1504,9 @@ class RemoveUnnecessaryAtomics : public IRMutator {
         if (is_parallel(op->for_type)) {
             ScopedValue<bool> old_in_thread(in_thread, true);
             Scope<> old_local_allocs;
-            std::swap(old_local_allocs, local_allocs);
+            old_local_allocs.swap(local_allocs);
             Stmt s = IRMutator::visit(op);
-            std::swap(old_local_allocs, local_allocs);
+            old_local_allocs.swap(local_allocs);
             return s;
         } else {
             return IRMutator::visit(op);
