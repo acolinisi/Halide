@@ -82,6 +82,7 @@ tests(GROUPS error
       vectorize_too_little.cpp
       vectorize_too_much.cpp
       vectorized_extern.cpp
+      vector_tile.cpp
       wrap_custom_after_shared.cpp
       wrap_frozen.cpp
       wrapper_never_used.cpp
